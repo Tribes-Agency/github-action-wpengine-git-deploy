@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y git
 
 ADD entrypoint.sh /entrypoint.sh
 
+# Set the working directory to /github/workspace
+WORKDIR /github/workspace
+
 # Copy contents of the workspace to the Docker container
 COPY . .
 
