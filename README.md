@@ -1,27 +1,27 @@
-# THIS PROJECT IS UNMAINTAINED -- USE AT YOUR OWN RISK. PLEASE FORK OR SEE ONE OF THE EXISTING FORKS FOR A MORE UPDATED VERSION.
-
 # GitHub Action for WP Engine Git Deployments
 
-An action to deploy your repository to a **[WP Engine](https://wpengine.com)** site via git. [Read more](https://wpengine.com/git/) about WP Engine's git deployment support.
+This GitHub Action automates the deployment of your WordPress website to WP Engine using Git. It handles setting up the SSH keys, configuring the Git remote, and pushing your changes to the WP Engine environment. [Read more](https://wpengine.com/git/)
 
-## Example GitHub Action workflow
+## Usage
+To use this GitHub Action in your workflow, add the following steps to your `.github/workflows/main.yml`  :
 
 ```
-workflow "Deploy to WP Engine" {
-  on = "push"
-  resolves = ["Git Push to Production"]
-}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-action "Git Push to Production" {
-  uses = "jovrtn/github-action-wpengine-git-deploy@master"
-  env = {
-    WPENGINE_ENVIRONMENT_NAME   = "my-cool-site-production"
-  }
-  secrets = [
-    "WPENGINE_SSH_KEY_PRIVATE",
-    "WPENGINE_SSH_KEY_PUBLIC"
-  ]
-}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Deploy to WP Engine
+      uses: Tribes-Agency/github-action-wpengine-git-deploy@master
+      env:
+        WPENGINE_ENVIRONMENT_NAME: ${{ secrets.WPENGINE_ENVIRONMENT_NAME }}
+        WPENGINE_SSH_KEY_PRIVATE: ${{ secrets.WPENGINE_SSH_KEY_PRIVATE }}
+        WPENGINE_SSH_KEY_PUBLIC: ${{ secrets.WPENGINE_SSH_KEY_PUBLIC }}
+        WPENGINE_ENVIRONMENT: production
+        LOCAL_BRANCH: main
 ```
 
 ## Environment Variables & Secrets
